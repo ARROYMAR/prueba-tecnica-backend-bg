@@ -1,9 +1,3 @@
-﻿namespace CarritoApi;
-
-public class Categoria
-{
-
-}
 namespace CarritoApi.Entities;
 
 /// <summary>Tabla dbo.Categoria.</summary>

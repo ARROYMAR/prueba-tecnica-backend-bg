@@ -14,6 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // ---------- Configuración (appsettings + variables de entorno) ----------
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection(JwtSettings.SectionName));
+builder.Services.Configure<DescuentoSettings>(builder.Configuration.GetSection(DescuentoSettings.SectionName));
 var jwt = builder.Configuration.GetSection(JwtSettings.SectionName).Get<JwtSettings>()
           ?? throw new InvalidOperationException("Falta la sección 'Jwt' en la configuración.");
 
@@ -28,9 +29,13 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // ---------- Servicios de la aplicación ----------
-builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+builder.Services.AddScoped<IPasswordHasher<Usuario>, PasswordHasher<Usuario>>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddSingleton<IDescuentoService, DescuentoService>();
+builder.Services.AddScoped<IProductoService, ProductoService>();
+builder.Services.AddScoped<ICarritoService, CarritoService>();
+builder.Services.AddScoped<IOrdenService, OrdenService>();
 
 // ---------- Autenticación JWT ----------
 builder.Services

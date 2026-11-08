@@ -1,12 +1,4 @@
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-
-namespace MyApp.Namespace
-{
-    [Route("api/[controller]")]
-    [ApiController]
-    public class OrdenesController : ControllerBase
-    {using CarritoApi.DTOs.Ordenes;
+using CarritoApi.DTOs.Ordenes;
 using CarritoApi.Extensions;
 using CarritoApi.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -46,7 +38,8 @@ public class OrdenesController : ControllerBase
 
     /// <summary>Detalle de una compra del usuario.</summary>
     [HttpGet("{id:int}")]
-  
-
-    }
+    [ProducesResponseType(typeof(OrdenDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<OrdenDto>> ObtenerPorId(int id, CancellationToken ct)
+        => Ok(await _ordenService.ObtenerPorIdAsync(User.ObtenerUsuarioId(), id, ct));
 }

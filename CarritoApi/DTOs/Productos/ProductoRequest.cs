@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace CarritoApi.DTOs.Productos;
 
@@ -20,7 +20,7 @@ public class ProductoRequest
     public int CategoriaId { get; set; }
 
     [Range(typeof(decimal), "0", "1000000", ErrorMessage = "El precio debe estar entre 0 y 1.000.000.")]
-   
+    public decimal Precio { get; set; }
 
     [Range(0, int.MaxValue, ErrorMessage = "El stock no puede ser negativo.")]
     public int Stock { get; set; }

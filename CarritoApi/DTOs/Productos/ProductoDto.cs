@@ -1,4 +1,4 @@
-﻿namespace CarritoApi.DTOs.Productos;
+namespace CarritoApi.DTOs.Productos;
 
 public class ProductoDto
 {
@@ -8,5 +8,9 @@ public class ProductoDto
     public string? Descripcion { get; init; }
     public int CategoriaId { get; init; }
 
-
+    /// <summary>Descripción de la categoría.</summary>
+    public string Categoria { get; init; } = string.Empty;
+    public decimal Precio { get; init; }
+    public int Stock { get; init; }
+    public bool Estado { get; init; }
 }

@@ -49,5 +49,15 @@ public class CarritoController : ControllerBase
     [HttpDelete("items/{productoId:int}")]
     [ProducesResponseType(typeof(CarritoDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
-  
+    public async Task<ActionResult<CarritoDto>> EliminarProducto(int productoId, CancellationToken ct)
+        => Ok(await _carritoService.EliminarProductoAsync(User.ObtenerUsuarioId(), productoId, ct));
+
+    /// <summary>Vacía el carrito.</summary>
+    [HttpDelete]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    public async Task<IActionResult> Vaciar(CancellationToken ct)
+    {
+        await _carritoService.VaciarAsync(User.ObtenerUsuarioId(), ct);
+        return NoContent();
+    }
 }

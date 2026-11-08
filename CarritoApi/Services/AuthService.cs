@@ -10,13 +10,13 @@ public class AuthService : IAuthService
 {
     private readonly AppDbContext _db;
     private readonly ITokenService _tokenService;
-    private readonly IPasswordHasher<User> _passwordHasher;
+    private readonly IPasswordHasher<Usuario> _passwordHasher;
     private readonly ILogger<AuthService> _logger;
 
     public AuthService(
         AppDbContext db,
         ITokenService tokenService,
-        IPasswordHasher<User> passwordHasher,
+        IPasswordHasher<Usuario> passwordHasher,
         ILogger<AuthService> logger)
     {
         _db = db;
@@ -27,36 +27,36 @@ public class AuthService : IAuthService
 
     public async Task<LoginResponse?> LoginAsync(LoginRequest request, CancellationToken cancellationToken = default)
     {
-        var username = request.Username.Trim();
+        var nombreUsuario = request.Usuario.Trim();
 
-        var user = await _db.Users
+        var usuario = await _db.Usuarios
             .AsNoTracking()
-            .FirstOrDefaultAsync(u => u.Usuario == username && u.Estado, cancellationToken);
+            .FirstOrDefaultAsync(u => u.NombreUsuario == nombreUsuario && u.Estado, cancellationToken);
 
-        if (user is null)
+        if (usuario is null)
         {
-            // Mismo resultado que con contraseña incorrecta: no revelamos si el usuario existe.
-            _logger.LogWarning("Intento de login fallido: usuario '{Username}' no existe o está inactivo.", username);
+            // Mismo resultado que con contraseña incorrecta: no se revela si el usuario existe.
+            _logger.LogWarning("Intento de login fallido: usuario '{Usuario}' no existe o está inactivo.", nombreUsuario);
             return null;
         }
 
-        var result = _passwordHasher.VerifyHashedPassword(user, user.Password, request.Password);
-        if (result == PasswordVerificationResult.Failed)
+        var resultado = _passwordHasher.VerifyHashedPassword(usuario, usuario.Password, request.Password);
+        if (resultado == PasswordVerificationResult.Failed)
         {
-            _logger.LogWarning("Intento de login fallido: contraseña incorrecta para '{Username}'.", username);
+            _logger.LogWarning("Intento de login fallido: contraseña incorrecta para '{Usuario}'.", nombreUsuario);
             return null;
         }
 
-        var (token, expiresAt) = _tokenService.CreateToken(user);
-        _logger.LogInformation("Login correcto para '{Username}'.", username);
+        var (token, expira) = _tokenService.CrearToken(usuario);
+        _logger.LogInformation("Login correcto para '{Usuario}'.", nombreUsuario);
 
         return new LoginResponse
         {
             Token = token,
-            ExpiresAt = expiresAt,
-            Usuario = user.Usuario,
-            Nombre = user.Nombre,
-            Rol = user.Rol
+            Expira = expira,
+            Usuario = usuario.NombreUsuario,
+            Nombre = usuario.Nombre,
+            Rol = usuario.Rol
         };
     }
 }

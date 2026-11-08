@@ -1,4 +1,4 @@
-﻿namespace CarritoApi.Entities;
+namespace CarritoApi.Entities;
 
 /// <summary>Tabla dbo.CarritoCompra (cabecera, un carrito por usuario).</summary>
 public class CarritoCompra

@@ -17,29 +17,29 @@ public class TokenService : ITokenService
         _settings = settings.Value;
     }
 
-    public (string Token, DateTime ExpiresAt) CreateToken(User user)
+    public (string Token, DateTime Expira) CrearToken(Usuario usuario)
     {
         var claims = new List<Claim>
         {
-            new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-            new(JwtRegisteredClaimNames.UniqueName, user.Usuario),
-            new(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new(ClaimTypes.Name, user.Usuario),
-            new(ClaimTypes.Role, user.Rol),
+            new(JwtRegisteredClaimNames.Sub, usuario.Id.ToString()),
+            new(JwtRegisteredClaimNames.UniqueName, usuario.NombreUsuario),
+            new(ClaimTypes.NameIdentifier, usuario.Id.ToString()),
+            new(ClaimTypes.Name, usuario.NombreUsuario),
+            new(ClaimTypes.Role, usuario.Rol),
             new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
 
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.Key));
-        var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-        var expiresAt = DateTime.UtcNow.AddMinutes(_settings.ExpirationMinutes);
+        var clave = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.Key));
+        var credenciales = new SigningCredentials(clave, SecurityAlgorithms.HmacSha256);
+        var expira = DateTime.UtcNow.AddMinutes(_settings.ExpirationMinutes);
 
         var jwt = new JwtSecurityToken(
             issuer: _settings.Issuer,
             audience: _settings.Audience,
             claims: claims,
-            expires: expiresAt,
-            signingCredentials: credentials);
+            expires: expira,
+            signingCredentials: credenciales);
 
-        return (new JwtSecurityTokenHandler().WriteToken(jwt), expiresAt);
+        return (new JwtSecurityTokenHandler().WriteToken(jwt), expira);
     }
 }

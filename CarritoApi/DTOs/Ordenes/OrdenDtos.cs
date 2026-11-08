@@ -1,4 +1,4 @@
-﻿namespace CarritoApi.DTOs.Ordenes;
+namespace CarritoApi.DTOs.Ordenes;
 
 /// <summary>Fila del historial de compras.</summary>
 public class OrdenResumenDto

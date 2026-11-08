@@ -1,4 +1,4 @@
-﻿using CarritoApi.DTOs.Categorias;
+using CarritoApi.DTOs.Categorias;
 using CarritoApi.DTOs.Comun;
 using CarritoApi.DTOs.Productos;
 

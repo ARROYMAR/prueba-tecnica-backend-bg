@@ -4,5 +4,5 @@ namespace CarritoApi.Services;
 
 public interface ITokenService
 {
-    (string Token, DateTime ExpiresAt) CreateToken(User user);
+    (string Token, DateTime Expira) CrearToken(Usuario usuario);
 }

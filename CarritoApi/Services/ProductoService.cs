@@ -1,4 +1,4 @@
-﻿using System.Linq.Expressions;
+using System.Linq.Expressions;
 using CarritoApi.Data;
 using CarritoApi.DTOs.Categorias;
 using CarritoApi.DTOs.Comun;
