@@ -22,10 +22,10 @@ public class TokenService : ITokenService
         var claims = new List<Claim>
         {
             new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-            new(JwtRegisteredClaimNames.UniqueName, user.Username),
+            new(JwtRegisteredClaimNames.UniqueName, user.Usuario),
             new(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new(ClaimTypes.Name, user.Username),
-            new(ClaimTypes.Role, user.Role),
+            new(ClaimTypes.Name, user.Usuario),
+            new(ClaimTypes.Role, user.Rol),
             new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
 

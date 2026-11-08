@@ -31,7 +31,7 @@ public class AuthService : IAuthService
 
         var user = await _db.Users
             .AsNoTracking()
-            .FirstOrDefaultAsync(u => u.Username == username && u.IsActive, cancellationToken);
+            .FirstOrDefaultAsync(u => u.Usuario == username && u.Estado, cancellationToken);
 
         if (user is null)
         {
@@ -40,7 +40,7 @@ public class AuthService : IAuthService
             return null;
         }
 
-        var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, request.Password);
+        var result = _passwordHasher.VerifyHashedPassword(user, user.Password, request.Password);
         if (result == PasswordVerificationResult.Failed)
         {
             _logger.LogWarning("Intento de login fallido: contraseña incorrecta para '{Username}'.", username);
@@ -54,9 +54,9 @@ public class AuthService : IAuthService
         {
             Token = token,
             ExpiresAt = expiresAt,
-            Username = user.Username,
-            FullName = user.FullName,
-            Role = user.Role
+            Usuario = user.Usuario,
+            Nombre = user.Nombre,
+            Rol = user.Rol
         };
     }
 }

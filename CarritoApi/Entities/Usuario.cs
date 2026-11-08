@@ -12,5 +12,5 @@ public class User
     public string Password { get; set; } = string.Empty;
     public string Rol { get; set; } = "Cliente";
     public bool Estado { get; set; } = true;
-    public DateTime CreatedAt { get; set; }
+    public DateTime FechaCreacion  { get; set; }
 }
